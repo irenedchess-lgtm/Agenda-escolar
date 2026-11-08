@@ -1,0 +1,5 @@
+# Local environment variables (copy .env.example to .env and add your API key)
+.env
+node_modules/
+.DS_Store
+npm-debug.log*

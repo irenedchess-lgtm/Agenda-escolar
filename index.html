@@ -1,351 +1,49 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#fff8fc">
-  <meta name="description" content="Organiza tus clases, anota lo que aprendes y planifica lo que necesitas repasar.">
-  <title>FocusKit — Mi día de clase</title>
-  <style>
-    :root {
-      color-scheme: light;
-      --bg: #fff8fc;
-      --card: #fff;
-      --text: #49394e;
-      --muted: #806f85;
-      --primary: #88539c;
-      --soft: #f4e8f6;
-      --border: #e6d7e9;
-      --field: #fffafd;
-      --danger: #a83e62;
-      --shadow: 0 12px 32px rgb(73 57 78 / 6%);
-    }
-
-    body.dark {
-      color-scheme: dark;
-      --bg: #211d29;
-      --card: #302738;
-      --text: #f5eaf8;
-      --muted: #c3b4c7;
-      --primary: #d3a9e8;
-      --soft: #44364d;
-      --border: #594a61;
-      --field: #392f40;
-      --danger: #f0a2b9;
-      --shadow: 0 12px 32px rgb(0 0 0 / 14%);
-    }
-
-    * { box-sizing: border-box; }
-    body {
-      min-width: 320px;
-      margin: 0;
-      background: var(--bg);
-      color: var(--text);
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      line-height: 1.5;
-      transition: background-color .2s, color .2s;
-    }
-    button, input, textarea { font: inherit; }
-    button { cursor: pointer; }
-    button:focus-visible, input:focus-visible, textarea:focus-visible {
-      outline: 3px solid var(--primary);
-      outline-offset: 3px;
-    }
-    .container { width: min(100% - 32px, 760px); margin: 32px auto; }
-    header { display: flex; justify-content: space-between; align-items: center; gap: 16px; margin-bottom: 32px; }
-    .logo { color: var(--primary); font-size: 1.8rem; font-weight: 800; letter-spacing: -.04em; }
-    .subtitle { color: var(--muted); font-size: .7rem; font-weight: 700; letter-spacing: .18em; }
-    .theme-button, .delete-button, .add-button {
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      font-weight: 700;
-      transition: transform .15s, background-color .15s;
-    }
-    .theme-button { padding: 10px 14px; background: var(--soft); color: var(--text); white-space: nowrap; }
-    button:hover { transform: translateY(-1px); }
-    h1 { margin: 0 0 6px; font-size: clamp(1.7rem, 5vw, 2rem); line-height: 1.2; }
-    h2 { margin: 0; font-size: 1.2rem; }
-    .description { margin: 0; color: var(--muted); }
-    .date-box { margin: 26px 0; padding: 17px; border-radius: 15px; background: var(--soft); }
-    .date-box label { display: block; margin-bottom: 8px; color: var(--muted); font-size: .75rem; font-weight: 800; letter-spacing: .08em; }
-    input, textarea {
-      width: 100%;
-      padding: 12px;
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      background: var(--field);
-      color: var(--text);
-    }
-    textarea { min-height: 88px; resize: vertical; }
-    input::placeholder, textarea::placeholder { color: var(--muted); opacity: .8; }
-    .section-title { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin: 26px 0 15px; }
-    #classCount { color: var(--muted); font-size: .9rem; }
-    .class-card { margin-bottom: 16px; padding: 20px; border: 1px solid var(--border); border-radius: 17px; background: var(--card); box-shadow: var(--shadow); }
-    .card-header { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-bottom: 20px; }
-    .card-actions { display: flex; align-items: center; gap: 8px; }
-    .class-number { display: inline-grid; min-width: 38px; min-height: 36px; place-items: center; border-radius: 9px; background: var(--soft); color: var(--primary); font-weight: 800; }
-    .delete-button { min-width: 36px; min-height: 36px; padding: 6px 9px; border-color: transparent; background: transparent; color: var(--danger); }
-    .field { margin-bottom: 17px; }
-    .field:last-child { margin-bottom: 0; }
-    .field label { display: block; margin-bottom: 8px; font-size: .9rem; font-weight: 700; }
-    .review-title { margin: 20px 0; color: var(--primary); font-weight: 700; }
-    .add-button { width: 100%; padding: 15px; border: 1px dashed var(--primary); background: var(--soft); color: var(--primary); }
-    .empty-state { margin: 0 0 16px; padding: 22px; border: 1px dashed var(--border); border-radius: 14px; color: var(--muted); text-align: center; }
-    .save-status { min-height: 1.5em; margin: 12px 0 0; color: var(--muted); font-size: .8rem; text-align: right; }
-    footer { margin-top: 35px; color: var(--muted); font-size: .7rem; font-weight: 700; letter-spacing: .16em; text-align: center; }
-    @media (max-width: 500px) {
-      .container { width: min(100% - 24px, 760px); margin: 18px auto; }
-      header { align-items: flex-start; margin-bottom: 26px; }
-      .theme-button { padding: 9px 10px; font-size: .82rem; }
-      .class-card { padding: 16px; }
-    }
-    @media (prefers-reduced-motion: reduce) {
-      *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; }
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#fff8fc">
+<meta name="description" content="Crea quizzes con IA a partir de tus apuntes y organiza tu día de clase.">
+<title>FocusKit AI</title>
+<style>
+:root{color-scheme:light;--bg:#fff8fc;--card:#fff;--text:#49394e;--muted:#806f85;--primary:#88539c;--soft:#f4e8f6;--border:#e6d7e9;--field:#fffafd;--good:#e4f4e9;--bad:#fae6eb;--shadow:0 12px 32px rgb(73 57 78 / 6%)}
+body.dark{color-scheme:dark;--bg:#211d29;--card:#302738;--text:#f5eaf8;--muted:#c3b4c7;--primary:#d3a9e8;--soft:#44364d;--border:#594a61;--field:#392f40;--good:#294437;--bad:#4c303a;--shadow:0 12px 32px rgb(0 0 0 / 14%)}
+*{box-sizing:border-box}body{margin:0;min-width:320px;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;line-height:1.5;transition:background .2s,color .2s}button,input,textarea,select{font:inherit}button{cursor:pointer}button:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible{outline:3px solid var(--primary);outline-offset:2px}.container{max-width:900px;margin:26px auto;padding:18px}header{display:flex;justify-content:space-between;align-items:center;gap:14px;margin-bottom:24px}.logo{font-size:29px;font-weight:800;color:var(--primary)}.tagline{font-size:11px;font-weight:700;letter-spacing:2px;color:var(--muted)}button{border:0;border-radius:12px;padding:11px 15px;font-weight:700;transition:transform .15s,opacity .15s}button:hover{transform:translateY(-1px)}button:disabled{cursor:wait;opacity:.65}.theme,nav button{background:var(--soft);color:var(--text)}.primary{background:var(--primary);color:#fff}.primary:focus-visible{outline-color:var(--text)}nav{display:flex;gap:8px;flex-wrap:wrap;margin:20px 0}nav button.active{background:var(--primary);color:#fff}h1{font-size:clamp(1.65rem,5vw,1.9rem);margin:8px 0}.muted,.small{color:var(--muted)}.panel,.card{background:var(--card);border:1px solid var(--border);border-radius:18px;padding:20px;margin:16px 0;box-shadow:var(--shadow)}label{display:block;font-weight:700;font-size:14px;margin:0 0 8px}input,textarea,select{width:100%;padding:12px;border:1px solid var(--border);border-radius:10px;background:var(--field);color:var(--text)}textarea{min-height:110px;resize:vertical}.field{margin:14px 0}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.actions{display:flex;gap:10px;flex-wrap:wrap;align-items:center}.filebox{border:1px dashed var(--primary);border-radius:14px;padding:16px;background:var(--soft)}.hidden{display:none!important}.question{padding:17px;border:1px solid var(--border);border-radius:15px;margin:14px 0;background:var(--card)}.option{display:flex;gap:10px;align-items:flex-start;padding:10px;border:1px solid var(--border);border-radius:10px;margin:8px 0;font-weight:400}.option input{width:auto;margin-top:3px}.feedback{padding:12px;border-radius:10px;margin-top:10px;background:var(--soft)}.correct{background:var(--good)}.incorrect{background:var(--bad)}.badge{display:inline-block;font-size:12px;padding:5px 9px;border-radius:20px;background:var(--soft);color:var(--primary)}.class-heading{display:flex;justify-content:space-between;align-items:center;gap:10px}.delete{background:transparent;color:var(--primary)}.save-status{min-height:1.4em;font-size:.85rem;color:var(--muted)}footer{text-align:center;color:var(--muted);font-size:11px;letter-spacing:2px;margin:35px 0}@media(max-width:560px){.container{padding:13px;margin:10px auto}.grid{grid-template-columns:1fr}.panel{padding:16px}header{align-items:flex-start}.theme{padding:9px 10px}}
+</style>
 </head>
 <body>
-  <main class="container">
-    <header>
-      <div>
-        <div class="logo">FocusKit</div>
-        <div class="subtitle">ESTUDIA A TU MANERA</div>
-      </div>
-      <button class="theme-button" id="themeButton" type="button" aria-pressed="false">🌙 Modo oscuro</button>
-    </header>
-
-    <section aria-labelledby="pageTitle">
-      <h1 id="pageTitle">Mi día de clase</h1>
-      <p class="description">Organiza lo que aprendes cada día.</p>
-
-      <div class="date-box">
-        <label for="dayDate">FECHA</label>
-        <input type="date" id="dayDate">
-      </div>
-
-      <div class="section-title">
-        <h2>Mis clases</h2>
-        <span id="classCount" aria-live="polite">0 clases</span>
-      </div>
-      <div id="classes" aria-live="polite"></div>
-      <button class="add-button" id="addButton" type="button">＋ Añadir otra clase</button>
-      <p class="save-status" id="saveStatus" role="status" aria-live="polite"></p>
-    </section>
-
-    <footer>FOCUSKIT · ORGANIZA · APRENDE · MEJORA</footer>
-  </main>
-
-  <script>
-    (() => {
-      "use strict";
-
-      const STORAGE_KEY = "focuskit_data_v2";
-      const LEGACY_STORAGE_KEY = "focuskit_data_v1";
-      const classesContainer = document.getElementById("classes");
-      const addButton = document.getElementById("addButton");
-      const dateInput = document.getElementById("dayDate");
-      const themeButton = document.getElementById("themeButton");
-      const countLabel = document.getElementById("classCount");
-      const saveStatus = document.getElementById("saveStatus");
-
-      const today = toLocalISODate(new Date());
-      let selectedDate = today;
-      let darkMode = false;
-      let days = {};
-      let saveTimer;
-
-      function toLocalISODate(date) {
-        const year = date.getFullYear();
-        const month = String(date.getMonth() + 1).padStart(2, "0");
-        const day = String(date.getDate()).padStart(2, "0");
-        return `${year}-${month}-${day}`;
-      }
-
-      function newId() {
-        if (globalThis.crypto && typeof globalThis.crypto.randomUUID === "function") {
-          return globalThis.crypto.randomUUID();
-        }
-        return `class-${Date.now()}-${Math.random().toString(36).slice(2)}`;
-      }
-
-      function createClass() {
-        return { id: newId(), subject: "", content: "", learned: "", review: "" };
-      }
-
-      function isValidClass(item) {
-        return item && typeof item.id === "string" &&
-          ["subject", "content", "learned", "review"].every(key => typeof item[key] === "string");
-      }
-
-      function loadData() {
-        try {
-          const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || "null");
-          if (saved && typeof saved === "object") {
-            if (saved.days && typeof saved.days === "object" && !Array.isArray(saved.days)) {
-              for (const [date, items] of Object.entries(saved.days)) {
-                if (/^\d{4}-\d{2}-\d{2}$/.test(date) && Array.isArray(items)) {
-                  days[date] = items.filter(isValidClass);
-                }
-              }
-            }
-            if (typeof saved.selectedDate === "string" && /^\d{4}-\d{2}-\d{2}$/.test(saved.selectedDate)) {
-              selectedDate = saved.selectedDate;
-            }
-            darkMode = saved.darkMode === true;
-            return;
-          }
-
-          // Migrate data from the first version without losing existing notes.
-          const legacy = JSON.parse(localStorage.getItem(LEGACY_STORAGE_KEY) || "null");
-          if (legacy && Array.isArray(legacy.classes)) {
-            const legacyDate = typeof legacy.selectedDate === "string" && /^\d{4}-\d{2}-\d{2}$/.test(legacy.selectedDate)
-              ? legacy.selectedDate : today;
-            days[legacyDate] = legacy.classes.filter(isValidClass);
-            selectedDate = legacyDate;
-            darkMode = legacy.darkMode === true;
-          }
-        } catch (error) {
-          console.warn("No se pudieron cargar los datos guardados.", error);
-          saveStatus.textContent = "No se pudieron leer los datos guardados.";
-        }
-      }
-
-      function saveData() {
-        try {
-          localStorage.setItem(STORAGE_KEY, JSON.stringify({ days, selectedDate, darkMode }));
-          saveStatus.textContent = "Guardado en este dispositivo";
-          clearTimeout(saveTimer);
-          saveTimer = setTimeout(() => { saveStatus.textContent = ""; }, 2200);
-        } catch (error) {
-          console.warn("No se pudieron guardar los datos.", error);
-          saveStatus.textContent = "No se pudo guardar. Comprueba el espacio del navegador.";
-        }
-      }
-
-      function makeField({ label, value, field, multiline, placeholder, id }) {
-        const wrapper = document.createElement("div");
-        wrapper.className = "field";
-        const labelElement = document.createElement("label");
-        labelElement.htmlFor = id;
-        labelElement.textContent = label;
-        const control = document.createElement(multiline ? "textarea" : "input");
-        control.id = id;
-        control.dataset.field = field;
-        control.placeholder = placeholder;
-        control.value = value;
-        wrapper.append(labelElement, control);
-        return wrapper;
-      }
-
-      function renderClasses() {
-        const items = days[selectedDate] || [];
-        classesContainer.replaceChildren();
-        countLabel.textContent = `${items.length} ${items.length === 1 ? "clase" : "clases"}`;
-
-        if (items.length === 0) {
-          const empty = document.createElement("p");
-          empty.className = "empty-state";
-          empty.textContent = "Todavía no has añadido clases para este día.";
-          classesContainer.append(empty);
-        }
-
-        items.forEach((item, index) => {
-          const card = document.createElement("article");
-          card.className = "class-card";
-          card.dataset.id = item.id;
-
-          const header = document.createElement("div");
-          header.className = "card-header";
-          const title = document.createElement("strong");
-          title.textContent = item.subject.trim() || "Nueva clase";
-          title.className = "card-title";
-          const actions = document.createElement("div");
-          actions.className = "card-actions";
-          const number = document.createElement("span");
-          number.className = "class-number";
-          number.textContent = String(index + 1).padStart(2, "0");
-          const remove = document.createElement("button");
-          remove.type = "button";
-          remove.className = "delete-button";
-          remove.dataset.delete = item.id;
-          remove.setAttribute("aria-label", `Eliminar clase ${index + 1}`);
-          remove.textContent = "✕";
-          actions.append(number, remove);
-          header.append(title, actions);
-
-          const prefix = `class-${item.id}`;
-          card.append(
-            header,
-            makeField({ label: "Asignatura", value: item.subject, field: "subject", placeholder: "Ej. Matemáticas", id: `${prefix}-subject` }),
-            makeField({ label: "Contenido trabajado", value: item.content, field: "content", placeholder: "¿Qué habéis dado?", id: `${prefix}-content` })
-          );
-          const reviewTitle = document.createElement("div");
-          reviewTitle.className = "review-title";
-          reviewTitle.textContent = "✨ Mini repaso";
-          card.append(
-            reviewTitle,
-            makeField({ label: "1. ¿Qué he aprendido en esta clase?", value: item.learned, field: "learned", multiline: true, placeholder: "Escribe lo que has aprendido...", id: `${prefix}-learned` }),
-            makeField({ label: "2. ¿Qué necesito repasar o mejorar?", value: item.review, field: "review", multiline: true, placeholder: "Anota lo que necesitas practicar...", id: `${prefix}-review` })
-          );
-          classesContainer.append(card);
-        });
-      }
-
-      function updateTheme() {
-        document.body.classList.toggle("dark", darkMode);
-        themeButton.textContent = darkMode ? "☀️ Modo claro" : "🌙 Modo oscuro";
-        themeButton.setAttribute("aria-pressed", String(darkMode));
-        document.querySelector('meta[name="theme-color"]').content = darkMode ? "#211d29" : "#fff8fc";
-      }
-
-      addButton.addEventListener("click", () => {
-        if (!days[selectedDate]) days[selectedDate] = [];
-        days[selectedDate].push(createClass());
-        renderClasses();
-        saveData();
-        const firstField = classesContainer.querySelector("input");
-        if (firstField) firstField.focus();
-      });
-
-      classesContainer.addEventListener("input", event => {
-        const field = event.target.dataset.field;
-        const card = event.target.closest(".class-card");
-        if (!field || !card) return;
-        const item = (days[selectedDate] || []).find(entry => entry.id === card.dataset.id);
-        if (!item) return;
-        item[field] = event.target.value;
-        if (field === "subject") card.querySelector(".card-title").textContent = event.target.value.trim() || "Nueva clase";
-        saveData();
-      });
-
-      classesContainer.addEventListener("click", event => {
-        const button = event.target.closest("[data-delete]");
-        if (!button) return;
-        days[selectedDate] = (days[selectedDate] || []).filter(item => item.id !== button.dataset.delete);
-        renderClasses();
-        saveData();
-      });
-
-      dateInput.addEventListener("change", () => {
-        selectedDate = dateInput.value || today;
-        if (!days[selectedDate]) days[selectedDate] = [];
-        renderClasses();
-        saveData();
-      });
-
-      themeButton.addEventListener("click", () => {
-        darkMode = !darkMode;
-        updateTheme();
-        saveData();
-      });
-
-      loadData();
-      if (!days[selectedDate]) days[selectedDate] = [];
-      dateInput.value = selectedDate;
-      updateTheme();
-      renderClasses();
-      saveData();
-    })();
-  </script>
+<main class="container">
+<header><div><div class="logo">FocusKit</div><div class="tagline">ORGANIZA · APRENDE · MEJORA</div></div><button class="theme" id="themeBtn" type="button" aria-pressed="false">🌙 Oscuro</button></header>
+<nav aria-label="Secciones"><button class="active" data-page="ai" type="button" aria-current="page">✨ FocusKit AI</button><button data-page="day" type="button">📚 Mi día de clase</button></nav>
+<section id="aiPage"><h1>Tu asistente de estudio</h1><p class="muted">Convierte tus apuntes en un quiz personalizado.</p>
+<div class="panel"><div class="field"><label for="subject">Asignatura</label><input id="subject" maxlength="100" autocomplete="off" placeholder="Ej. Biología, Matemáticas..."></div>
+<div class="field"><label for="notes">Pega tus apuntes</label><textarea id="notes" maxlength="30000" placeholder="Pega aquí tus apuntes..."></textarea></div>
+<div class="field"><label for="files">Adjunta tus apuntes</label><div class="filebox"><input id="files" type="file" multiple accept=".pdf,.doc,.docx,.txt,.png,.jpg,.jpeg,.webp"><p class="small">PDF, Word, TXT o imágenes. Máximo 6 archivos de 12 MB cada uno.</p><div id="fileNames" class="small" aria-live="polite"></div></div></div>
+<div class="grid"><div class="field"><label for="difficulty">Dificultad</label><select id="difficulty"><option value="facil">Fácil</option><option value="media" selected>Media</option><option value="dificil">Difícil</option></select></div><div class="field"><label for="count">Número de preguntas</label><select id="count"><option>5</option><option selected>10</option><option>15</option><option>20</option></select></div></div>
+<div class="field"><label for="types">Tipos de preguntas</label><select id="types"><option value="todos">Todos los tipos</option><option value="test">Solo test</option><option value="test_vf">Test y verdadero/falso</option></select></div>
+<div class="actions"><button class="primary" id="generateBtn" type="button">✨ Generar mi quiz</button><span id="status" class="small" role="status" aria-live="polite"></span></div></div><div id="quizArea"></div></section>
+<section id="dayPage" class="hidden"><h1>Mi día de clase</h1><p class="muted">Registra lo que has aprendido cada día.</p><div class="panel"><label for="dayDate">Fecha</label><input type="date" id="dayDate"><div id="classes"></div><button class="primary" id="addClass" type="button">＋ Añadir clase</button><p class="save-status" id="saveStatus" role="status" aria-live="polite"></p></div></section>
+<footer>FOCUSKIT · STUDY YOUR WAY</footer>
+</main>
+<script>
+(() => {
+"use strict";
+const $=id=>document.getElementById(id);let currentQuiz=null;const labels={single_choice:"Elige una respuesta",multiple_choice:"Elige todas las correctas",true_false:"Verdadero o falso",short_answer:"Respuesta corta"};
+function localDate(date=new Date()){return `${date.getFullYear()}-${String(date.getMonth()+1).padStart(2,"0")}-${String(date.getDate()).padStart(2,"0")}`}
+function safeLoad(key,fallback){try{return JSON.parse(localStorage.getItem(key)||"null")??fallback}catch{return fallback}}
+document.querySelectorAll("nav button").forEach(button=>button.addEventListener("click",()=>{document.querySelectorAll("nav button").forEach(item=>{const active=item===button;item.classList.toggle("active",active);if(active)item.setAttribute("aria-current","page");else item.removeAttribute("aria-current")});$("aiPage").classList.toggle("hidden",button.dataset.page!=="ai");$("dayPage").classList.toggle("hidden",button.dataset.page!=="day")}));
+let dark=localStorage.getItem("fk-theme")==="dark";function updateTheme(){document.body.classList.toggle("dark",dark);$("themeBtn").textContent=dark?"☀️ Claro":"🌙 Oscuro";$("themeBtn").setAttribute("aria-pressed",String(dark));document.querySelector('meta[name="theme-color"]').content=dark?"#211d29":"#fff8fc"}updateTheme();$("themeBtn").addEventListener("click",()=>{dark=!dark;updateTheme();localStorage.setItem("fk-theme",dark?"dark":"light")});
+$("files").addEventListener("change",()=>{$("fileNames").textContent=[...$("files").files].map(file=>`${file.name} (${(file.size/1024/1024).toFixed(1)} MB)`).join(" · ")});
+$("generateBtn").addEventListener("click",async()=>{const files=[...$("files").files],notes=$("notes").value.trim(),subject=$("subject").value.trim();if(!subject){$("status").textContent="Escribe la asignatura.";return}if(!notes&&!files.length){$("status").textContent="Añade tus apuntes o adjunta un archivo.";return}if(files.length>6||files.some(file=>file.size>12*1024*1024)){$("status").textContent="Puedes subir hasta 6 archivos de 12 MB cada uno.";return}const form=new FormData();form.append("subject",subject);form.append("notes",notes);form.append("difficulty",$("difficulty").value);form.append("count",$("count").value);form.append("types",$("types").value);files.forEach(file=>form.append("files",file));const button=$("generateBtn");button.disabled=true;$("status").textContent="La IA está preparando tus preguntas...";$("quizArea").replaceChildren();try{const response=await fetch("/api/generate-quiz",{method:"POST",body:form});const data=await response.json();if(!response.ok)throw new Error(data.error||"Error generando el quiz.");currentQuiz=data;renderQuiz(data);$("status").textContent="Quiz preparado."}catch(error){$("status").textContent=error.message||"No se pudo conectar con el servidor."}finally{button.disabled=false}});
+function renderQuiz(quiz){const area=$("quizArea");area.replaceChildren();const panel=document.createElement("div");panel.className="panel";const heading=document.createElement("h2");heading.textContent=quiz.title;const sub=document.createElement("p");sub.className="muted";sub.textContent=`${quiz.subject} · ${quiz.questions.length} preguntas`;const form=document.createElement("form");quiz.questions.forEach((question,index)=>{const box=document.createElement("fieldset");box.className="question";const legend=document.createElement("legend");legend.className="badge";legend.textContent=labels[question.type]||"Pregunta";const title=document.createElement("h3");title.textContent=`${index+1}. ${question.question}`;box.append(legend,title);if(question.type==="short_answer"){const answer=document.createElement("textarea");answer.name=`answer-${index}`;answer.setAttribute("aria-label",`Respuesta a la pregunta ${index+1}`);answer.placeholder="Escribe tu respuesta...";box.append(answer)}else{(question.options||[]).forEach((option,optionIndex)=>{const label=document.createElement("label");label.className="option";const input=document.createElement("input");input.type=question.type==="multiple_choice"?"checkbox":"radio";input.name=`answer-${index}`;input.value=option;input.id=`q${index}-o${optionIndex}`;const span=document.createElement("span");span.textContent=option;label.append(input,span);box.append(label)})}form.append(box)});const actions=document.createElement("div");actions.className="actions";const grade=document.createElement("button");grade.type="button";grade.className="primary";grade.id="gradeBtn";grade.textContent="Corregir mi quiz";const status=document.createElement("span");status.id="gradeStatus";status.className="small";status.setAttribute("role","status");status.setAttribute("aria-live","polite");const results=document.createElement("div");results.id="results";actions.append(grade,status);panel.append(heading,sub,form,actions,results);area.append(panel);grade.addEventListener("click",gradeQuiz)}
+async function gradeQuiz(){const answers=currentQuiz.questions.map((question,index)=>{const controls=[...document.querySelectorAll(`[name="answer-${index}"]`)];return{id:question.id,answer:question.type==="short_answer"?(controls[0]?.value||""):controls.filter(control=>control.checked).map(control=>control.value)}});if(answers.some(answer=>Array.isArray(answer.answer)?!answer.answer.length:!answer.answer.trim())){$("gradeStatus").textContent="Contesta todas las preguntas antes de corregir.";return}const button=$("gradeBtn");button.disabled=true;$("gradeStatus").textContent="Corrigiendo...";$("results").replaceChildren();try{const response=await fetch("/api/grade",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({questions:currentQuiz.questions,answers})});const data=await response.json();if(!response.ok)throw new Error(data.error||"Error al corregir.");const resultMap=new Map(data.results.map(item=>[item.id,item]));let score=0;currentQuiz.questions.forEach((question,index)=>{const result=resultMap.get(question.id);if(!result)return;if(result.correct)score++;const div=document.createElement("div");div.className=`feedback ${result.correct?"correct":"incorrect"}`;const title=document.createElement("strong");title.textContent=`${index+1}. ${result.correct?"✓ Correcta":"✗ Para repasar"}`;const feedback=document.createElement("p");feedback.textContent=result.feedback;const explain=document.createElement("p");explain.append(document.createTextNode("Explicación: "),document.createTextNode(question.explanation));div.append(title,feedback,explain);if(question.type==="short_answer"){const model=document.createElement("p");model.append(document.createTextNode("Respuesta modelo: "),document.createTextNode(question.expectedAnswer));div.append(model)}$("results").append(div)});$("gradeStatus").textContent=`Resultado: ${score}/${currentQuiz.questions.length} · ${Math.round(score/currentQuiz.questions.length*100)}%`}catch(error){$("gradeStatus").textContent=error.message||"No se pudo conectar con el servidor."}finally{button.disabled=false}}
+const today=localDate();let selectedDate=today;let dayData=safeLoad("fk-days",{});if(!dayData||typeof dayData!=="object"||Array.isArray(dayData))dayData={};const oldClasses=safeLoad("fk-classes",null);if(oldClasses&&!dayData[today])dayData[today]=Array.isArray(oldClasses)?oldClasses:[];$("dayDate").value=today;
+function makeId(){return globalThis.crypto?.randomUUID?.()||`class-${Date.now()}-${Math.random().toString(36).slice(2)}`}
+function saveDay(){try{localStorage.setItem("fk-days",JSON.stringify(dayData));$("saveStatus").textContent="Guardado en este dispositivo"}catch{$("saveStatus").textContent="No se pudo guardar en este navegador."}}
+function renderClasses(){const container=$("classes");container.replaceChildren();const list=Array.isArray(dayData[selectedDate])?dayData[selectedDate]:[];if(!list.length){const empty=document.createElement("p");empty.className="muted";empty.textContent="Todavía no has añadido clases para este día.";container.append(empty)}list.forEach((item,index)=>{const card=document.createElement("article");card.className="card";const header=document.createElement("div");header.className="class-heading";const title=document.createElement("strong");title.textContent=item.subject?.trim()||`Clase ${index+1}`;const del=document.createElement("button");del.type="button";del.className="delete";del.dataset.delete=item.id;del.setAttribute("aria-label",`Eliminar clase ${index+1}`);del.textContent="Eliminar";header.append(title,del);card.append(header);[["Asignatura","subject","Ej. Matemáticas"],["Contenido trabajado","content","¿Qué habéis dado?"],["¿Qué he aprendido?","learned","Escribe lo que has aprendido..."],["¿Qué necesito repasar?","review","Anota lo que necesitas practicar..."]].forEach(([label,key,placeholder])=>{const field=document.createElement("div");field.className="field";const lab=document.createElement("label");const id=`${item.id}-${key}`;lab.htmlFor=id;lab.textContent=label;const control=document.createElement(key==="learned"||key==="review"?"textarea":"input");control.id=id;control.dataset.key=key;control.dataset.id=item.id;control.placeholder=placeholder;control.value=item[key]||"";field.append(lab,control);card.append(field)});container.append(card)})}
+$("dayDate").addEventListener("change",()=>{selectedDate=$("dayDate").value||today;if(!dayData[selectedDate])dayData[selectedDate]=[];renderClasses()});$("addClass").addEventListener("click",()=>{if(!Array.isArray(dayData[selectedDate]))dayData[selectedDate]=[];dayData[selectedDate].push({id:makeId(),subject:"",content:"",learned:"",review:""});renderClasses();saveDay();$("classes").querySelector("input")?.focus()});$("classes").addEventListener("input",event=>{const {id,key}=event.target.dataset;if(!id||!key)return;const item=(dayData[selectedDate]||[]).find(entry=>entry.id===id);if(item){item[key]=event.target.value;if(key==="subject")event.target.closest(".card").querySelector(".class-heading strong").textContent=event.target.value.trim()||`Clase ${(dayData[selectedDate]||[]).indexOf(item)+1}`;saveDay()}});$("classes").addEventListener("click",event=>{const id=event.target.closest("[data-delete]")?.dataset.delete;if(!id)return;dayData[selectedDate]=(dayData[selectedDate]||[]).filter(item=>item.id!==id);renderClasses();saveDay()});renderClasses();
+})();
+</script>
 </body>
 </html>
